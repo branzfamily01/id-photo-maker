@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>スマホ証明写真メーカー</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <h1>証明写真メーカー</h1>
+    <p>スマホで撮影・調整・印刷用シート作成</p>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>1. 写真を撮る / 選ぶ</h2>
+    <div class="actions">
+      <label class="btn primary">📷 カメラで撮る<input id="cameraInput" type="file" accept="image/*" capture="user" hidden></label>
+      <label class="btn">🖼 写真から選ぶ<input id="fileInput" type="file" accept="image/*" hidden></label>
+    </div>
+    <p class="hint">白〜薄い無地の壁を背景に、正面を向いて撮るときれいに仕上がります。</p>
+  </section>
+
+  <section class="card">
+    <h2>2. サイズを選ぶ</h2>
+    <div class="grid buttons" id="presetButtons">
+      <button data-w="30" data-h="40">履歴書<br><b>30×40mm</b></button>
+      <button data-w="35" data-h="45">パスポート等<br><b>35×45mm</b></button>
+      <button data-w="24" data-h="30">小型<br><b>24×30mm</b></button>
+      <button id="customPreset">自由サイズ<br><b>mm指定</b></button>
+    </div>
+    <div class="custom-size" id="customSizeBox" hidden>
+      <label>幅 <input id="customW" type="number" min="15" max="100" value="30"> mm</label>
+      <label>高さ <input id="customH" type="number" min="20" max="120" value="40"> mm</label>
+      <button id="applyCustom" class="btn small">適用</button>
+    </div>
+    <p class="current">選択中：<strong id="sizeLabel">30×40mm</strong></p>
+  </section>
+
+  <section class="card editor-card">
+    <h2>3. 顔の位置を合わせる</h2>
+    <div class="stage-wrap">
+      <canvas id="editor" width="600" height="800"></canvas>
+      <div id="emptyState" class="empty-state">写真を選ぶとここに表示されます</div>
+    </div>
+    <div class="controls">
+      <label>拡大 <input id="zoom" type="range" min="0.5" max="3" step="0.01" value="1"></label>
+      <label>左右 <input id="panX" type="range" min="-300" max="300" step="1" value="0"></label>
+      <label>上下 <input id="panY" type="range" min="-400" max="400" step="1" value="0"></label>
+      <label>明るさ <input id="brightness" type="range" min="70" max="130" step="1" value="100"></label>
+    </div>
+    <div class="actions compact">
+      <button id="rotateBtn" class="btn">↻ 90°回転</button>
+      <button id="resetBtn" class="btn">リセット</button>
+    </div>
+    <p class="hint">緑の楕円に顔を収め、目のラインを目安に位置を調整してください。</p>
+  </section>
+
+  <section class="card">
+    <h2>4. 印刷用シートを作る</h2>
+    <div class="sheet-options">
+      <label>用紙
+        <select id="paperSize">
+          <option value="L">L判 89×127mm</option>
+          <option value="2L">2L判 127×178mm</option>
+          <option value="A4">A4 210×297mm</option>
+        </select>
+      </label>
+      <label>余白 <input id="marginMm" type="number" min="0" max="20" value="4"> mm</label>
+    </div>
+    <button id="generateSheet" class="btn primary full">印刷用シートを生成</button>
+    <canvas id="sheet" class="sheet-canvas"></canvas>
+    <div class="actions">
+      <button id="downloadSingle" class="btn">1枚画像を保存</button>
+      <button id="downloadSheet" class="btn primary">印刷シートを保存</button>
+    </div>
+    <p class="hint">コンビニ印刷時は「画像を用紙に合わせて拡大」ではなく、できるだけ原寸相当で印刷してください。</p>
+  </section>
+
+  <section class="card note">
+    <h2>撮影のコツ</h2>
+    <ul>
+      <li>スマホは目の高さ。広角の歪みを避けるため顔に近づけすぎない。</li>
+      <li>窓の正面など、顔全体にやわらかく光が当たる場所がおすすめ。</li>
+      <li>背景は白・薄いグレーなどの無地。影が強い場合は壁から少し離れる。</li>
+      <li>提出先ごとに写真規格は異なるため、最終的な指定サイズ・顔寸法を必ず確認。</li>
+    </ul>
+  </section>
+</main>
+<footer>端末内で画像処理します。写真はサーバーへ送信しません。</footer>
+<script src="app.js"></script>
+</body>
+</html>
