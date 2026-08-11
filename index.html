@@ -10,7 +10,7 @@
 <header class="app-header">
   <div>
     <h1>証明写真メーカー</h1>
-    <p>スマホで撮影・調整・印刷用シート作成</p>
+    <p>スマホで撮影・調整・背景補正・印刷用シート作成</p>
   </div>
 </header>
 
@@ -21,7 +21,7 @@
       <label class="btn primary">📷 カメラで撮る<input id="cameraInput" type="file" accept="image/*" capture="user" hidden></label>
       <label class="btn">🖼 写真から選ぶ<input id="fileInput" type="file" accept="image/*" hidden></label>
     </div>
-    <p class="hint">白〜薄い無地の壁を背景に、正面を向いて撮るときれいに仕上がります。</p>
+    <p class="hint">白〜薄い無地の壁を背景に、正面を向いて撮ると背景の自動補正がきれいに働きやすくなります。</p>
   </section>
 
   <section class="card">
@@ -41,7 +41,7 @@
   </section>
 
   <section class="card editor-card">
-    <h2>3. 顔の位置を合わせる</h2>
+    <h2>3. 顔の位置と背景を整える</h2>
     <div class="stage-wrap">
       <canvas id="editor" width="600" height="800"></canvas>
       <div id="emptyState" class="empty-state">写真を選ぶとここに表示されます</div>
@@ -52,6 +52,21 @@
       <label>上下 <input id="panY" type="range" min="-400" max="400" step="1" value="0"></label>
       <label>明るさ <input id="brightness" type="range" min="70" max="130" step="1" value="100"></label>
     </div>
+
+    <div class="bg-card">
+      <div class="bg-title">背景を自動補正</div>
+      <div class="bg-presets" id="bgPresetButtons">
+        <button data-bg="original">そのまま</button>
+        <button data-bg="white" class="active">白</button>
+        <button data-bg="blue">青</button>
+        <button data-bg="gray">薄いグレー</button>
+      </div>
+      <label class="strength-control">補正の強さ
+        <input id="bgTolerance" type="range" min="18" max="80" step="1" value="38">
+      </label>
+      <p class="hint">背景の色を自動判定して、白や青へ置き換えます。髪の輪郭が気になるときは「補正の強さ」を少し下げてください。</p>
+    </div>
+
     <div class="actions compact">
       <button id="rotateBtn" class="btn">↻ 90°回転</button>
       <button id="resetBtn" class="btn">リセット</button>
@@ -85,7 +100,7 @@
     <ul>
       <li>スマホは目の高さ。広角の歪みを避けるため顔に近づけすぎない。</li>
       <li>窓の正面など、顔全体にやわらかく光が当たる場所がおすすめ。</li>
-      <li>背景は白・薄いグレーなどの無地。影が強い場合は壁から少し離れる。</li>
+      <li>背景は白・薄いグレー・薄い青などの無地がおすすめ。影が強い場合は壁から少し離れる。</li>
       <li>提出先ごとに写真規格は異なるため、最終的な指定サイズ・顔寸法を必ず確認。</li>
     </ul>
   </section>
